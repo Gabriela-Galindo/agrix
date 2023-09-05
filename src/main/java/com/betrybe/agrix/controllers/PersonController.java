@@ -1,5 +1,6 @@
 package com.betrybe.agrix.controllers;
 
+import com.betrybe.agrix.ebytr.staff.dto.PersonDto;
 import com.betrybe.agrix.ebytr.staff.entity.Person;
 import com.betrybe.agrix.ebytr.staff.entity.PersonResponse;
 import com.betrybe.agrix.ebytr.staff.service.PersonService;
@@ -28,8 +29,8 @@ public class PersonController {
   * Rota post do person.
   */
   @PostMapping
-  public ResponseEntity<PersonResponse> createPerson(@RequestBody Person person) {
-    Person createdPerson = personService.create(person);
+  public ResponseEntity<PersonResponse> createPerson(@RequestBody PersonDto personDto) {
+    Person createdPerson = personService.create(personDto.toEntity());
 
     PersonResponse personResponse = new PersonResponse(createdPerson);
 

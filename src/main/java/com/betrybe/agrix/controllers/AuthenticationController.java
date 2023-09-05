@@ -39,16 +39,15 @@ public class AuthenticationController {
   */
   @PostMapping("/login")
   public ResponseEntity<TokenDto> login(@RequestBody AuthenticationDto authenticationDto) {
-    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+    UsernamePasswordAuthenticationToken usernamePassword =
               new UsernamePasswordAuthenticationToken(
                   authenticationDto.username(), authenticationDto.password()
               );
     Authentication authentication = authenticationManager
-            .authenticate(usernamePasswordAuthenticationToken);
+            .authenticate(usernamePassword);
     Person person = (Person) authentication.getPrincipal();
     String token = tokenService.generateToken(person);
-    TokenDto tokenDto = new TokenDto(token);
 
-    return ResponseEntity.status(HttpStatus.OK).body(tokenDto);
+    return ResponseEntity.status(HttpStatus.OK).body(TokenDto.formated(token));
   }
 }

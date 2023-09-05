@@ -2,6 +2,7 @@ package com.betrybe.agrix.ebytr.staff.entity;
 
 
 import com.betrybe.agrix.ebytr.staff.security.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "people")
-public class Person implements UserDetails {
+public class Person implements UserDetails, GrantedAuthority {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,7 @@ public class Person implements UserDetails {
   @Column(unique = true)
   private String username;
 
+  @JsonIgnore
   private String password;
 
   private Role role;
@@ -36,10 +38,14 @@ public class Person implements UserDetails {
    * Construtor.
    */
   public Person(Long id, String username, String password, Role role) {
+    super();
     this.id = id;
     this.username = username;
     this.password = password;
     this.role = role;
+  }
+
+  public Person() {
   }
 
   public Long getId() {
@@ -89,28 +95,39 @@ public class Person implements UserDetails {
   }
 
   @Override
+  @JsonIgnore
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of();
   }
 
   @Override
+  @JsonIgnore
   public boolean isAccountNonExpired() {
     return true;
   }
 
   @Override
+  @JsonIgnore
   public boolean isAccountNonLocked() {
     return true;
   }
 
   @Override
+  @JsonIgnore
   public boolean isCredentialsNonExpired() {
     return true;
   }
 
   @Override
+  @JsonIgnore
   public boolean isEnabled() {
     return true;
+  }
+
+  @Override
+  @JsonIgnore
+  public String getAuthority() {
+    return this.getRole().getName();
   }
 }
 

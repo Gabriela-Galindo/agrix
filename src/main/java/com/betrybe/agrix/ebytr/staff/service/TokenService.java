@@ -34,4 +34,16 @@ public class TokenService {
               .plusMonths(2)
               .toInstant(ZoneOffset.of("-03:00"));
   }
+
+  /**
+   * Método validate do token.
+   */
+  public String validateToken(String token) {
+    Algorithm algorithm = Algorithm.HMAC256(secret);
+    return JWT.require(algorithm)
+            .withIssuer("agrix")
+            .build()
+            .verify(token)
+            .getSubject();
+  }
 }

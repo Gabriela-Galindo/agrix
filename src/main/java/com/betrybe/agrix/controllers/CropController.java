@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,7 @@ public class CropController {
   }
 
   @GetMapping
+  @Secured({"MANAGER", "ADMIN"})
   public List<Crop> getAllCrops() {
     return cropService.getAllCrops();
   }
@@ -46,6 +48,7 @@ public class CropController {
    * Rota get by id do Crop.
    */
   @GetMapping("/{id}")
+  @Secured({"MANAGER", "ADMIN"})
   public ResponseEntity<?> getCropById(@PathVariable Long id) {
     Optional<Crop> crop = cropService.getCropById(id);
 

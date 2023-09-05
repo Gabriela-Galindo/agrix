@@ -96,8 +96,8 @@ public class Person implements UserDetails, GrantedAuthority {
 
   @Override
   @JsonIgnore
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of();
+  public Collection<Person> getAuthorities() {
+    return List.of(this);
   }
 
   @Override
